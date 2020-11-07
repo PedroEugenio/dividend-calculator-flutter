@@ -1,4 +1,4 @@
-import 'package:dividend_calculator_flutter/modules/stock_api.dart';
+import 'package:dividend_calculator_flutter/screens/screen_stock.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: Scaffold(body: Center(child: StockApi())),
+      home: ScreenStock(),
     );
   }
 }

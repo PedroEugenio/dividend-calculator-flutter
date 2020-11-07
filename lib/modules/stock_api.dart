@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import 'package:dividend_calculator_flutter/modules/stock.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,46 @@ Stock parseApiStockResponse(String responseBody) {
   return Stock.fromJSON(jsonResponse);
 }
 
-Widget createCardStock(Stock stockData) {
+Widget createFrontCardStock(Stock stockData) {
+  return Container(
+    width: 400.0,
+    height: 300.0,
+    child: Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      color: Colors.amber[300],
+      elevation: 10.0,
+      //margin: EdgeInsets.all(100.0),
+      child: InkWell(
+        child: Column(
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 12.0, 0, 12.0),
+              child: Text(
+                stockData.symbol,
+                style: TextStyle(
+                  fontSize: 30.0,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Text(
+              stockData.name,
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget createBackCardStock(Stock stockData) {
   return Container(
     width: 400.0,
     height: 300.0,
@@ -90,7 +130,11 @@ class StockApi extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasError) print(snapshot.error);
           return snapshot.hasData
-              ? createCardStock(snapshot.data)
+              ? FlipCard(
+                  direction: FlipDirection.HORIZONTAL,
+                  front: createFrontCardStock(snapshot.data),
+                  back: createBackCardStock(snapshot.data),
+                )
               : Center(child: CircularProgressIndicator());
         },
       ),
