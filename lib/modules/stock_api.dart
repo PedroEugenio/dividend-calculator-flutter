@@ -126,13 +126,17 @@ class StockApi extends StatelessWidget {
           future: getStockData(schedule.stockSymbol),
           builder: (context, snapshot) {
             if (snapshot.hasError) print(snapshot.error);
-            return snapshot.hasData
-                ? FlipCard(
-                    direction: FlipDirection.HORIZONTAL,
-                    front: createFrontCardStock(snapshot.data),
-                    back: createBackCardStock(snapshot.data),
-                  )
-                : Center(child: CircularProgressIndicator());
+            if (snapshot.hasData) {
+              return FlipCard(
+                direction: FlipDirection.HORIZONTAL,
+                front: createFrontCardStock(snapshot.data),
+                back: createBackCardStock(snapshot.data),
+              );
+            } else if (snapshot.data == null) {
+              return Text(""); //Do nothing
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
           },
         ),
       ),

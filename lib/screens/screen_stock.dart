@@ -9,6 +9,7 @@ class ScreenStock extends StatelessWidget {
   Widget build(BuildContext context) {
     final schedule = Provider.of<MySchedule>(context);
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           actions: <Widget>[
             IconButton(
@@ -22,7 +23,9 @@ class ScreenStock extends StatelessWidget {
           title: TextField(
             textInputAction: TextInputAction.go,
             controller: inputTextController,
-            onChanged: (value) => schedule.stockSymbol = value,
+            onChanged: (value) => {
+              if (value.length > 0) {schedule.stockSymbol = value}
+            },
           ),
         ),
         body: Center(
