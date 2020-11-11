@@ -15,7 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Dividend Calculator',
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        backgroundColor: Colors.grey[850],
+        primaryColor: Colors.grey[850],
+        accentColor: Colors.grey[850],
       ),
       home: ChangeNotifierProvider(
           create: (context) => MySchedule(), child: ScreenStock()),

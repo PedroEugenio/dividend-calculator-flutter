@@ -27,15 +27,15 @@ Stock parseApiStockResponse(String responseBody) {
   return Stock.fromJSON(jsonResponse);
 }
 
-Widget createFrontCardStock(Stock stockData) {
+Widget createFrontCardStock(Stock stockData, double width, double height) {
   return Container(
-    width: 300.0,
-    height: 200.0,
+    width: width,
+    height: height,
     child: Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      color: Colors.amber[300],
+      color: Colors.amber[200],
       elevation: 10.0,
       //margin: EdgeInsets.all(100.0),
       child: InkWell(
@@ -65,15 +65,15 @@ Widget createFrontCardStock(Stock stockData) {
   );
 }
 
-Widget createBackCardStock(Stock stockData) {
+Widget createBackCardStock(Stock stockData, double width, double height) {
   return Container(
-    width: 300.0,
-    height: 200.0,
+    width: width,
+    height: height,
     child: Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      color: Colors.amber[300],
+      color: Colors.amber[200],
       elevation: 10.0,
       //margin: EdgeInsets.all(100.0),
       child: InkWell(
@@ -120,17 +120,22 @@ Widget createBackCardStock(Stock stockData) {
 class StockApi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double cardWidth =
+        (screenWidth < 500) ? screenWidth * 0.9 : screenWidth * 0.4;
     return Consumer<MySchedule>(
       builder: (context, schedule, _) => Container(
         child: FutureBuilder<Stock>(
-          future: getStockData(schedule.stockSymbol),
+          future: getStockData(
+            schedule.stockSymbol,
+          ),
           builder: (context, snapshot) {
             if (snapshot.hasError) print(snapshot.error);
             if (snapshot.hasData) {
               return FlipCard(
                 direction: FlipDirection.HORIZONTAL,
-                front: createFrontCardStock(snapshot.data),
-                back: createBackCardStock(snapshot.data),
+                front: createFrontCardStock(snapshot.data, 300, 200),
+                back: createBackCardStock(snapshot.data, 300, 200),
               );
             } else if (snapshot.data == null) {
               return Text(""); //Do nothing
