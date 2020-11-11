@@ -27,6 +27,7 @@ class ScreenStock extends StatelessWidget {
         ),
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [Flexible(child: StockApi())],
           ),
         ));
