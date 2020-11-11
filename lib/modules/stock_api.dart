@@ -1,12 +1,12 @@
-import 'dart:html';
-
+import 'package:dividend_calculator_flutter/modules/MySchedule.dart';
 import 'package:dividend_calculator_flutter/modules/stock.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+
+import 'package:provider/provider.dart';
 
 Future<Stock> getStockData(String tickSymbol) async {
   var response = await http.get(
@@ -29,8 +29,8 @@ Stock parseApiStockResponse(String responseBody) {
 
 Widget createFrontCardStock(Stock stockData) {
   return Container(
-    width: 400.0,
-    height: 300.0,
+    width: 300.0,
+    height: 200.0,
     child: Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -40,7 +40,6 @@ Widget createFrontCardStock(Stock stockData) {
       //margin: EdgeInsets.all(100.0),
       child: InkWell(
         child: Column(
-          //crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 12.0, 0, 12.0),
@@ -68,8 +67,8 @@ Widget createFrontCardStock(Stock stockData) {
 
 Widget createBackCardStock(Stock stockData) {
   return Container(
-    width: 400.0,
-    height: 300.0,
+    width: 300.0,
+    height: 200.0,
     child: Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -79,7 +78,6 @@ Widget createBackCardStock(Stock stockData) {
       //margin: EdgeInsets.all(100.0),
       child: InkWell(
         child: Column(
-          //crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 12.0, 0, 12.0),
@@ -120,23 +118,23 @@ Widget createBackCardStock(Stock stockData) {
 }
 
 class StockApi extends StatelessWidget {
-  final String tickSymbol = 'JNJ';
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder<Stock>(
-        future: getStockData(tickSymbol),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
-          return snapshot.hasData
-              ? FlipCard(
-                  direction: FlipDirection.HORIZONTAL,
-                  front: createFrontCardStock(snapshot.data),
-                  back: createBackCardStock(snapshot.data),
-                )
-              : Center(child: CircularProgressIndicator());
-        },
+    return Consumer<MySchedule>(
+      builder: (context, schedule, _) => Container(
+        child: FutureBuilder<Stock>(
+          future: getStockData(schedule.stockSymbol),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) print(snapshot.error);
+            return snapshot.hasData
+                ? FlipCard(
+                    direction: FlipDirection.HORIZONTAL,
+                    front: createFrontCardStock(snapshot.data),
+                    back: createBackCardStock(snapshot.data),
+                  )
+                : Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }

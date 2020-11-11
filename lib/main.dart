@@ -1,5 +1,7 @@
+import 'package:dividend_calculator_flutter/modules/MySchedule.dart';
 import 'package:dividend_calculator_flutter/screens/screen_stock.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: ScreenStock(),
+      home: ChangeNotifierProvider(
+          create: (context) => MySchedule(), child: ScreenStock()),
     );
   }
 }
