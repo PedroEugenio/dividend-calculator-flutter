@@ -1,4 +1,4 @@
-import 'package:dividend_calculator_flutter/modules/MySchedule.dart';
+import 'package:dividend_calculator_flutter/modules/stock_card_state.dart';
 import 'package:dividend_calculator_flutter/screens/screen_stock.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.grey[850],
       ),
       home: ChangeNotifierProvider(
-          create: (context) => MySchedule(), child: ScreenStock()),
+          create: (context) => StockCardState(), child: ScreenStock()),
     );
   }
 }
